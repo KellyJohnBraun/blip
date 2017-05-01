@@ -1,0 +1,72 @@
+<html>
+  <head></head>
+  <body>
+    <h1>BLIP</h1>
+    <div id="game"></div>
+    <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
+    <script>
+      Crafty.init(500,600, document.getElementById('game'))
+      Crafty.viewport.bounds = {min:{x:0, y:0}, max:{x:500, y:500}};;
+      Crafty.background('#CF6766');
+      // Banner 
+      Crafty.e("2D, Canvas, Color").attr({ x: 0, y: 0 , z:1, w: 500, h:50})
+      .color('#30415D');
+      // Banner Text 
+      Crafty.e("2D, Canvas, Text").attr({ x: 50, y: 0 , z: 2, w: 500, h:50})
+      .text(function(){return Math.floor(Crafty.frame()/35)})
+      .dynamicTextGeneration(true)
+      .textFont({ size: '40px', weight: 'bold' })
+      .textColor('white');
+
+      Crafty.e('LeftWall, 2D, Canvas, Color')
+        .attr({x: -100, y: 500, w: 100, h: 100});
+
+      Crafty.e('RightWall, 2D, Canvas, Color')
+        .attr({x: 500, y: 500, w: 100, h: 100});
+
+      Crafty.e('BottomWall, 2D, Canvas, Color')
+        .attr({x: 0, y: 630, w: 500, h: 10}) 
+
+      var speed = 1;
+
+      for(var i=0; i<10; i++){
+        var faller = Crafty.e("Faller, 2D, Canvas, Color, Collision, Motion")
+          .attr({x: (Math.floor(Math.random() * 470)), y: (i * -150), z:0, w: 30, h: 30})
+          .color('#8EAEBD')
+          .onHit('BottomWall', function(){
+            this.attr({x: (Math.floor(Math.random() * 470)), y:0});
+            this.ay++;
+          });
+
+        faller.ay = 15;
+      }
+
+      Crafty.defineScene("end", function(attributes) {
+        Crafty.e("2D, Canvas, Text").attr({ x: , y: 0 , z: 2, w: 500, h:50})
+        .text(" " + Math.floor(Crafty.frame()/35) + " ")
+        .textFont({ size: '40px', weight: 'bold' })
+        .textColor('white');
+      });
+      // to stop at some point
+      // clearInterval(spawner);
+
+      var mover = Crafty.e('2D, Canvas, Collision, Color, Twoway,')
+        .attr({x: 200, y: 525, w: 30, h: 30})
+        .color('#031424')
+        .twoway(500)
+        .onHit('LeftWall', function(){
+          this.attr({x: 0});
+          })
+        .onHit('RightWall', function(){
+          this.attr({x: 470});
+          })
+        .onHit('Faller', function(){
+          Crafty.enterScene("end");
+          })
+
+     mover.bind();
+     Crafty.enterScene("end"); 
+
+    </script>
+  </body>
+</html>
