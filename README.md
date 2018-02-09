@@ -4,4 +4,4 @@
 ## How do you play?
  1. Download this Repo
  2. Open the index.html file in your browser (requires internet connection)
- 3. Use the left and right arrows on your keyboard to avoid the blocks
+ 3. Use the left and right arrows on your keyboard to avoid the falling blocks
